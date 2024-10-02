@@ -1,14 +1,17 @@
 import { Body, Controller, Logger, Post } from "@nestjs/common";
-import { IamService } from "../iam.service";
+import { AuthenticationService } from "../authentication.service";
 import { SignUpDto } from "../../users/dto/sign-up.dto";
 import { LogInDto } from "../../users/dto/log-in.dto";
+import { AuthType } from "./enum/auth-type.enum";
+import { Auth } from "./decorators/auth.decorators";
 
-@Controller("auth")
+@Auth(AuthType.None)
+@Controller("")
 export class AuthenticationController {
   private readonly logger = new Logger("AuthenticationController");
-  constructor(private readonly iamService: IamService) {}
+  constructor(private readonly iamService: AuthenticationService) {}
 
-  @Post()
+  @Post("register")
   async registration(@Body() signUpDto: SignUpDto) {
     return await this.iamService.registration(signUpDto);
   }

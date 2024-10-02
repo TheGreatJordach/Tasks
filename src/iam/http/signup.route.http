@@ -1,16 +1,16 @@
 ### Send POST request with json body
-POST http://localhost:3000/api/auth
+POST http://localhost:3000/api/register
 Content-Type: application/json
 
 {
-  "name": "Darnel Makay",
-  "email": "darnel@gmail.fr",
+  "name": "danielle Merveille",
+  "email": "danielle@gmail.fr",
   "password": "Type@@2012"
 }
 
 
 ### Send POST request with json body
-POST http://localhost:3000/api/auth/login
+POST http://localhost:3000/api/login
 Content-Type: application/json
 
 {

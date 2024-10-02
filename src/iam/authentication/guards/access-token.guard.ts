@@ -12,6 +12,11 @@ import { ConfigType } from "@nestjs/config";
 import { Request } from "Express";
 import { REQUEST_USER_KEY } from "../constants/user.key";
 
+/**
+ * Guard that checks the validity of an access token.
+ * If the token is valid, it adds the user information to the request object.
+ * If the token is invalid, it throws an UnauthorizedException.
+ */
 @Injectable()
 export class AccessTokenGuard implements CanActivate {
   private readonly logger: Logger = new Logger("AccessTokenGuard");
@@ -41,6 +46,11 @@ export class AccessTokenGuard implements CanActivate {
     return true;
   }
 
+  /**
+   * Extracts the token from the authorization header of the request.
+   * @param request - The request object containing headers.
+   * @returns The extracted token string or undefined if not found.
+   */
   private extractTokenFromHeader(request: Request): string | undefined {
     const [_, token] = request.headers.authorization?.split(" ") ?? [];
     return token;

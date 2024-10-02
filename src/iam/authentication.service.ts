@@ -1,20 +1,18 @@
 import {
   ConflictException,
-  Inject,
   Injectable,
   InternalServerErrorException,
   Logger,
   UnauthorizedException,
 } from "@nestjs/common";
-import { BcryptProvider } from "./password/bcrypt.provider";
+
 import { SignUpDto } from "../users/dto/sign-up.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "../users/entity/user.entity";
 import { Repository } from "typeorm";
 import { LogInDto } from "../users/dto/log-in.dto";
-import { JwtService } from "@nestjs/jwt";
-import jwtConfig from "../app-config/jwt/jwt.config";
-import { ConfigType } from "@nestjs/config";
+import { PasswordService } from "./password/password.service";
+import { JwtTokenProvider } from "./jwt-token.provider";
 
 /**
  * Service handling user authentication and registration operations.
@@ -23,25 +21,14 @@ import { ConfigType } from "@nestjs/config";
  * creating new users, and generating JWT access tokens.
  */
 @Injectable()
-export class IamService {
+export class AuthenticationService {
   private readonly logger = new Logger("IAMService");
   constructor(
-    private readonly bcryptProvider: BcryptProvider,
     @InjectRepository(User) private readonly userRepository: Repository<User>,
-    private readonly jwtService: JwtService,
-    @Inject(jwtConfig.KEY)
-    private readonly jwtConfiguration: ConfigType<typeof jwtConfig>
-  ) {}
 
-  private async hassPassword(data: string | Buffer): Promise<string> {
-    return await this.bcryptProvider.hash(data);
-  }
-  private async comparePassword(
-    data: string | Buffer,
-    encryptedPassword: string
-  ): Promise<boolean> {
-    return await this.bcryptProvider.compare(data, encryptedPassword);
-  }
+    private readonly passwordService: PasswordService,
+    private readonly jwtTokenProvider: JwtTokenProvider
+  ) {}
 
   /**
    * Registers a new user by creating a user entity with the provided sign-up information.
@@ -59,7 +46,9 @@ export class IamService {
       throw new ConflictException();
     }
 
-    const hashedPassword = await this.bcryptProvider.hash(signUpDto.password);
+    const hashedPassword = await this.passwordService.hasPassword(
+      signUpDto.password
+    );
     if (!hashedPassword) {
       this.logger.log("IAM Failed with hash Provider");
       throw new InternalServerErrorException();
@@ -72,7 +61,7 @@ export class IamService {
       throw new InternalServerErrorException("Database error");
     }
 
-    return await this.generateToken(savedUser);
+    return await this.jwtTokenProvider.generateToken(savedUser);
   }
 
   /**
@@ -85,13 +74,13 @@ export class IamService {
    * @returns A promise that resolves to an object with a success message upon successful login.
    * @throws UnauthorizedException if the login credentials are invalid.
    */
-  async login(logInDto: LogInDto): Promise<{ message: string }> {
+  async login(logInDto: LogInDto): Promise<{ token: string }> {
     const storedUser = await this.ifEmailUsed(logInDto.email);
     if (!storedUser) {
       this.logger.log("IAM-SignUp Failed to signIn");
       throw new UnauthorizedException();
     }
-    const isSamePassword: boolean = await this.bcryptProvider.compare(
+    const isSamePassword: boolean = await this.passwordService.comparePassword(
       logInDto.password,
       storedUser.password
     );
@@ -100,9 +89,7 @@ export class IamService {
       throw new UnauthorizedException();
     }
 
-    return {
-      message: "You are logged in",
-    };
+    return await this.jwtTokenProvider.generateToken(storedUser);
   }
 
   /**
@@ -146,39 +133,6 @@ export class IamService {
       return await this.userRepository.save(newUser);
     } catch (error) {
       this.logger.log("IAM Failed to create new user", error);
-      throw new InternalServerErrorException();
-    }
-  }
-
-  /**
-   * Asynchronously generates a JWT access token for a given user.
-   *
-   * This method creates a JSON Web Token (JWT) using the user's ID and email as the payload.
-   * The token is signed with the specified secret and includes additional configuration
-   * such as audience, issuer, and expiration time. If token generation fails, an error is logged
-   * and an InternalServerErrorException is thrown.
-   *
-   * @param {User} user - The user object containing the user's ID and email.
-   * @returns {Promise<{ token: string }>} A promise that resolves to an object containing the generated access token.
-   * @throws {InternalServerErrorException} If token generation fails.
-   */
-  private async generateToken(user: User): Promise<{ token: string }> {
-    try {
-      const accessToken = await this.jwtService.signAsync(
-        {
-          sub: user.id,
-          email: user.email,
-        },
-        {
-          audience: this.jwtConfiguration.audience,
-          issuer: this.jwtConfiguration.issuer,
-          secret: this.jwtConfiguration.secret,
-          expiresIn: this.jwtConfiguration.accessTokenTtl,
-        }
-      );
-      return { token: accessToken };
-    } catch (error) {
-      this.logger.log("Failed to generate token", error);
       throw new InternalServerErrorException();
     }
   }
