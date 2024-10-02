@@ -1,0 +1,19 @@
+### Send POST request with json body
+POST http://localhost:3000/api/auth
+Content-Type: application/json
+
+{
+  "name": "Darnel Makay",
+  "email": "darnel@gmail.fr",
+  "password": "Type@@2012"
+}
+
+
+### Send POST request with json body
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "helni@gmail.fr",
+  "password": "Type@@2012"
+}
