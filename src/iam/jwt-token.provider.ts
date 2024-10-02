@@ -8,6 +8,7 @@ import { User } from "../users/entity/user.entity";
 import { JwtService } from "@nestjs/jwt";
 import jwtConfig from "../app-config/jwt/jwt.config";
 import { ConfigType } from "@nestjs/config";
+import { AuthUserData } from "./authenticated-user-data.interface";
 
 @Injectable()
 export class JwtTokenProvider {
@@ -36,7 +37,7 @@ export class JwtTokenProvider {
         {
           sub: user.id,
           email: user.email,
-        },
+        } as AuthUserData,
         {
           audience: this.jwtConfiguration.audience,
           issuer: this.jwtConfiguration.issuer,
