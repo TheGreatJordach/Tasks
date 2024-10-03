@@ -12,14 +12,14 @@ import { APP_GUARD, Reflector } from "@nestjs/core";
 import { AuthenticationGuard } from "./authentication/guards/authentication.guard";
 import { PasswordService } from "./password/password.service";
 import { JwtTokenProvider } from "./jwt-token.provider";
-import { UsersService } from "../users/users.service";
+import { UsersModule } from "../users/users.module";
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]),
     JwtModule.registerAsync(jwtConfig.asProvider()),
     ConfigModule.forFeature(jwtConfig),
-    UsersService,
+    UsersModule,
   ],
   providers: [
     JwtTokenProvider,

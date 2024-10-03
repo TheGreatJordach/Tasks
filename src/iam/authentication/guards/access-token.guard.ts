@@ -35,7 +35,6 @@ export class AccessTokenGuard implements CanActivate {
       throw new UnauthorizedException();
     }
     try {
-      //export const REQUEST_USER_KEY = "user";
       request[REQUEST_USER_KEY] = await this.jwtService.verifyAsync(
         token,
         this.jwtConfiguration
@@ -53,6 +52,7 @@ export class AccessTokenGuard implements CanActivate {
    */
   private extractTokenFromHeader(request: Request): string | undefined {
     const [_, token] = request.headers.authorization?.split(" ") ?? [];
+    console.log("Extracted Token:", token); // Log extracted token
     return token;
   }
 }

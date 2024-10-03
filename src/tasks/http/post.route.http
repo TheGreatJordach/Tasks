@@ -1,0 +1,43 @@
+### LOGIN
+POST http://localhost:3000/api/login
+Content-Type: application/json
+
+{
+  "email": "helni@gmail.fr",
+  "password": "Type@@2012"
+}
+
+### CREATE
+POST http://localhost:3000/api/todos
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoiaGVsbmlAZ21haWwuZnIiLCJpYXQiOjE3Mjc5ODkzMTAsImV4cCI6MTcyNzk5MjkxMCwiYXVkIjoibG9jYWxob3N0OjMwMCIsImlzcyI6ImxvY2FsaG9zdDozMDAifQ.mzVo5FZAZ808CVZdqczvIR2Myt5x7rAIcjiR0MBzQTs
+Content-Type: application/json
+
+{
+  "title": "Buy Bmw ",
+  "description": "Buy 2 X6, x7, a plane"
+}
+
+### UPDATE
+PUT http://localhost:3000/api/todos/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoiaGVsbmlAZ21haWwuZnIiLCJpYXQiOjE3Mjc5ODkzMTAsImV4cCI6MTcyNzk5MjkxMCwiYXVkIjoibG9jYWxob3N0OjMwMCIsImlzcyI6ImxvY2FsaG9zdDozMDAifQ.mzVo5FZAZ808CVZdqczvIR2Myt5x7rAIcjiR0MBzQTs
+Content-Type: application/json
+
+{
+  "title": "Buy 4 groceries",
+  "description": "Buy milk, eggs, and bread"
+}
+
+### DELETE
+DELETE http://localhost:3000/api/todos/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoiaGVsbmlAZ21haWwuZnIiLCJpYXQiOjE3Mjc5OTM0MzksImV4cCI6MTcyNzk5NzAzOSwiYXVkIjoibG9jYWxob3N0OjMwMCIsImlzcyI6ImxvY2FsaG9zdDozMDAifQ.7uIKQHaGNEN6TABQR9ApM1G2KLgAjvrPZ_sabwkYh08
+Accept: application/json
+
+### GET ALL
+GET http://localhost:3000/api/todos
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoiaGVsbmlAZ21haWwuZnIiLCJpYXQiOjE3Mjc5OTM0MzksImV4cCI6MTcyNzk5NzAzOSwiYXVkIjoibG9jYWxob3N0OjMwMCIsImlzcyI6ImxvY2FsaG9zdDozMDAifQ.7uIKQHaGNEN6TABQR9ApM1G2KLgAjvrPZ_sabwkYh08
+Accept: application/json
+
+### GET ALL WITH LIMIT
+GET http://localhost:3000/api/todos?page=1&limit=10
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoiaGVsbmlAZ21haWwuZnIiLCJpYXQiOjE3Mjc5OTM0MzksImV4cCI6MTcyNzk5NzAzOSwiYXVkIjoibG9jYWxob3N0OjMwMCIsImlzcyI6ImxvY2FsaG9zdDozMDAifQ.7uIKQHaGNEN6TABQR9ApM1G2KLgAjvrPZ_sabwkYh08
+Accept: application/json

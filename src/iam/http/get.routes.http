@@ -1,0 +1,5 @@
+GET http://localhost:3000/api/todos
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoiaGVsbmlAZ21haWwuZnIiLCJpYXQiOjE3Mjc5ODUxOTcsImV4cCI6MTcyNzk4ODc5NywiYXVkIjoibG9jYWxob3N0OjMwMCIsImlzcyI6ImxvY2FsaG9zdDozMDAifQ.pUygYJo-r5kDedjiNTz5jjA5yX7dfyyRUvhGYloGC-s
+Accept: application/json
+
+###

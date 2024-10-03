@@ -1,5 +1,12 @@
 import { User } from "../../users/entity/user.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from "typeorm";
 
 @Entity("todos")
 export class Task {
@@ -11,4 +18,9 @@ export class Task {
   description: string;
   @ManyToOne(() => User, (user) => user.id)
   user: User;
+
+  @CreateDateColumn()
+  createAt: Date;
+  @UpdateDateColumn()
+  updateAt: Date;
 }
