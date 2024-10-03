@@ -9,6 +9,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from "@nestjs/common";
 import { Auth } from "../iam/authentication/decorators/auth.decorators";
 import { AuthType } from "../iam/authentication/enum/auth-type.enum";
@@ -19,6 +20,8 @@ import { CreateTodoDto } from "./dto/create-todo.dto";
 import { User } from "../users/entity/user.entity";
 import { Task } from "./entity/task.entity";
 import { UpdateTaskDto } from "./dto/update-todo.dto";
+import { IdDto } from "../common/dto/id-dto";
+import { PaginationDto } from "../common/pagination/pagination.dto";
 
 @Auth(AuthType.Bearer)
 @Controller("todos")
@@ -42,7 +45,7 @@ export class TaskController {
   @Put(":id")
   async updateTodo(
     @AuthenticateUser() userPayload: AuthUserData,
-    @Param("id") id: number,
+    @Param() { id }: IdDto,
     @Body() updateTaskDto: UpdateTaskDto
   ): Promise<Task> {
     const user: User | null = await this.taskService.getUserEntity(
@@ -58,7 +61,7 @@ export class TaskController {
   @Delete(":id")
   async deleteTodo(
     @AuthenticateUser() userPayload: AuthUserData,
-    @Param("id") id: number
+    @Param() { id }: IdDto
   ) {
     const user: User | null = await this.taskService.getUserEntity(
       userPayload.sub
@@ -71,8 +74,9 @@ export class TaskController {
 
   @Get()
   async getAllTodos(
-    @AuthenticateUser() userPayload: AuthUserData
-  ): Promise<Task[]> {
+    @AuthenticateUser() userPayload: AuthUserData,
+    @Query() paginationDto: PaginationDto
+  ) {
     const user: User | null = await this.taskService.getUserEntity(
       userPayload.sub
     );
@@ -80,6 +84,6 @@ export class TaskController {
       throw new NotFoundException(`Not found Task for ${user.name}`);
     }
 
-    return await this.taskService.getAllTasksForUser(user);
+    return await this.taskService.paginateTasksForUser(paginationDto, user);
   }
 }

@@ -6,7 +6,7 @@ export const AuthenticateUser = createParamDecorator(
   (field: keyof AuthUserData | undefined, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest();
     const user: AuthUserData | undefined = request[REQUEST_USER_KEY];
-    console.log(user);
+
     return field ? user?.[field] : user;
   }
 );

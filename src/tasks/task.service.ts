@@ -10,6 +10,8 @@ import { Repository } from "typeorm";
 import { User } from "../users/entity/user.entity";
 import { CreateTodoDto } from "./dto/create-todo.dto";
 import { UpdateTaskDto } from "./dto/update-todo.dto";
+import { PaginationResultDto } from "../common/pagination/generic-pagination-result.dto";
+import { PaginationDto } from "../common/pagination/pagination.dto";
 
 @Injectable()
 export class TaskService {
@@ -19,11 +21,37 @@ export class TaskService {
     @InjectRepository(User) private readonly userRepository: Repository<User>
   ) {}
 
-  async getAllTasksForUser(user: User): Promise<Task[]> {
+  /**
+   * Paginates tasks for a specific user based on the provided pagination details.
+   *
+   * @param {PaginationDto} paginationDto - The pagination details including page and limit.
+   * @param {User} user - The user for whom tasks are being paginated.
+   * @returns {PaginationResultDto<Task>} A paginated result containing tasks for the user.
+   * @throws {InternalServerErrorException} If an error occurs during the pagination process.
+   */
+  async paginateTasksForUser(
+    paginationDto: PaginationDto,
+    user: User
+  ): Promise<PaginationResultDto<Task>> {
+    const { page, limit } = paginationDto;
+
     try {
-      return await this.taskRepository.find({
+      const [data, totalCount] = await this.taskRepository.findAndCount({
         where: { user },
+        skip: (page - 1) * limit,
+        take: limit,
         order: { createAt: "DESC" },
+      });
+
+      const totalPages = Math.ceil(totalCount / limit);
+      return new PaginationResultDto<Task>({
+        data,
+        page,
+        limit,
+        totalCount,
+        totalPages,
+        nextPage: page < totalPages,
+        previousPage: page > 1,
       });
     } catch (error) {
       this.logger.error("Failed to getAllTasks", error);

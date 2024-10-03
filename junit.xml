@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="3" failures="2" errors="0" time="13.216">
+  <testsuite name="AuthService" errors="0" failures="0" skipped="0" timestamp="2024-10-03T23:08:35" time="9.881" tests="1">
+    <testcase classname="AuthService should be defined" name="AuthService should be defined" time="0.02">
+    </testcase>
+  </testsuite>
+  <testsuite name="UsersService" errors="0" failures="1" skipped="0" timestamp="2024-10-03T23:08:35" time="10.94" tests="1">
+    <testcase classname="UsersService should be defined" name="UsersService should be defined" time="0.02">
+      <failure>Error: Nest can&apos;t resolve dependencies of the UsersService (?). Please make sure that the argument &quot;UserRepository&quot; at index [0] is available in the RootTestModule context.
+
+Potential solutions:
+- Is RootTestModule a valid NestJS module?
+- If &quot;UserRepository&quot; is a provider, is it part of the current RootTestModule?
+- If &quot;UserRepository&quot; is exported from a separate @Module, is that module imported within RootTestModule?
+  @Module({
+    imports: [ /* the Module containing &quot;UserRepository&quot; */ ]
+  })
+
+    at TestingInjector.lookupComponentInParentModules (I:\NEST-WORKING-DIR\Tasks\node_modules\@nestjs\core\injector\injector.js:254:19)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at TestingInjector.resolveComponentInstance (I:\NEST-WORKING-DIR\Tasks\node_modules\@nestjs\core\injector\injector.js:207:33)
+    at TestingInjector.resolveComponentInstance (I:\NEST-WORKING-DIR\Tasks\node_modules\@nestjs\testing\testing-injector.js:19:45)
+    at resolveParam (I:\NEST-WORKING-DIR\Tasks\node_modules\@nestjs\core\injector\injector.js:128:38)
+    at async Promise.all (index 0)
+    at TestingInjector.resolveConstructorParams (I:\NEST-WORKING-DIR\Tasks\node_modules\@nestjs\core\injector\injector.js:143:27)
+    at TestingInjector.loadInstance (I:\NEST-WORKING-DIR\Tasks\node_modules\@nestjs\core\injector\injector.js:70:13)
+    at TestingInjector.loadProvider (I:\NEST-WORKING-DIR\Tasks\node_modules\@nestjs\core\injector\injector.js:97:9)
+    at I:\NEST-WORKING-DIR\Tasks\node_modules\@nestjs\core\injector\instance-loader.js:56:13
+    at async Promise.all (index 3)
+    at TestingInstanceLoader.createInstancesOfProviders (I:\NEST-WORKING-DIR\Tasks\node_modules\@nestjs\core\injector\instance-loader.js:55:9)
+    at I:\NEST-WORKING-DIR\Tasks\node_modules\@nestjs\core\injector\instance-loader.js:40:13
+    at async Promise.all (index 1)
+    at TestingInstanceLoader.createInstances (I:\NEST-WORKING-DIR\Tasks\node_modules\@nestjs\core\injector\instance-loader.js:39:9)
+    at TestingInstanceLoader.createInstancesOfDependencies (I:\NEST-WORKING-DIR\Tasks\node_modules\@nestjs\core\injector\instance-loader.js:22:13)
+    at TestingInstanceLoader.createInstancesOfDependencies (I:\NEST-WORKING-DIR\Tasks\node_modules\@nestjs\testing\testing-instance-loader.js:9:9)
+    at TestingModuleBuilder.createInstancesOfDependencies (I:\NEST-WORKING-DIR\Tasks\node_modules\@nestjs\testing\testing-module.builder.js:118:9)
+    at TestingModuleBuilder.compile (I:\NEST-WORKING-DIR\Tasks\node_modules\@nestjs\testing\testing-module.builder.js:74:9)
+    at Object.&lt;anonymous&gt; (I:\NEST-WORKING-DIR\Tasks\src\users\users.service.spec.ts:8:35)</failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="IamService" errors="0" failures="1" skipped="0" timestamp="2024-10-03T23:08:35" time="10.983" tests="1">
+    <testcase classname="IamService should be defined" name="IamService should be defined" time="0.021">
+      <failure>Error: Nest can&apos;t resolve dependencies of the AuthenticationService (?, PasswordService, JwtTokenProvider). Please make sure that the argument UsersService at index [0] is available in the RootTestModule context.
+
+Potential solutions:
+- Is RootTestModule a valid NestJS module?
+- If UsersService is a provider, is it part of the current RootTestModule?
+- If UsersService is exported from a separate @Module, is that module imported within RootTestModule?
+  @Module({
+    imports: [ /* the Module containing UsersService */ ]
+  })
+
+    at TestingInjector.lookupComponentInParentModules (I:\NEST-WORKING-DIR\Tasks\node_modules\@nestjs\core\injector\injector.js:254:19)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at TestingInjector.resolveComponentInstance (I:\NEST-WORKING-DIR\Tasks\node_modules\@nestjs\core\injector\injector.js:207:33)
+    at TestingInjector.resolveComponentInstance (I:\NEST-WORKING-DIR\Tasks\node_modules\@nestjs\testing\testing-injector.js:19:45)
+    at resolveParam (I:\NEST-WORKING-DIR\Tasks\node_modules\@nestjs\core\injector\injector.js:128:38)
+    at async Promise.all (index 0)
+    at TestingInjector.resolveConstructorParams (I:\NEST-WORKING-DIR\Tasks\node_modules\@nestjs\core\injector\injector.js:143:27)
+    at TestingInjector.loadInstance (I:\NEST-WORKING-DIR\Tasks\node_modules\@nestjs\core\injector\injector.js:70:13)
+    at TestingInjector.loadProvider (I:\NEST-WORKING-DIR\Tasks\node_modules\@nestjs\core\injector\injector.js:97:9)
+    at I:\NEST-WORKING-DIR\Tasks\node_modules\@nestjs\core\injector\instance-loader.js:56:13
+    at async Promise.all (index 3)
+    at TestingInstanceLoader.createInstancesOfProviders (I:\NEST-WORKING-DIR\Tasks\node_modules\@nestjs\core\injector\instance-loader.js:55:9)
+    at I:\NEST-WORKING-DIR\Tasks\node_modules\@nestjs\core\injector\instance-loader.js:40:13
+    at async Promise.all (index 1)
+    at TestingInstanceLoader.createInstances (I:\NEST-WORKING-DIR\Tasks\node_modules\@nestjs\core\injector\instance-loader.js:39:9)
+    at TestingInstanceLoader.createInstancesOfDependencies (I:\NEST-WORKING-DIR\Tasks\node_modules\@nestjs\core\injector\instance-loader.js:22:13)
+    at TestingInstanceLoader.createInstancesOfDependencies (I:\NEST-WORKING-DIR\Tasks\node_modules\@nestjs\testing\testing-instance-loader.js:9:9)
+    at TestingModuleBuilder.createInstancesOfDependencies (I:\NEST-WORKING-DIR\Tasks\node_modules\@nestjs\testing\testing-module.builder.js:118:9)
+    at TestingModuleBuilder.compile (I:\NEST-WORKING-DIR\Tasks\node_modules\@nestjs\testing\testing-module.builder.js:74:9)
+    at Object.&lt;anonymous&gt; (I:\NEST-WORKING-DIR\Tasks\src\iam\iam.service.spec.ts:8:35)</failure>
+    </testcase>
+  </testsuite>
+</testsuites>
