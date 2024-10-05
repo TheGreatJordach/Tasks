@@ -26,7 +26,7 @@ export class UsersService {
       return await this.userRepository.findOne({ where: { email } });
     } catch (error) {
       this.logger.log("IAM User Not Found", email);
-      this.logger.warn(`${error.code}`);
+      this.logger.warn(`${error.message}`);
       return null;
     }
   }

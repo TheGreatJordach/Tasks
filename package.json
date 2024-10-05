@@ -1,10 +1,10 @@
 {
-  "name": "Tasks",
+  "name": "tasks",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "RESTful API to allow users to manage their to-do list",
+  "author": "Jordach Makaya",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
