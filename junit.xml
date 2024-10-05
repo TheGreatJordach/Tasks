@@ -40,7 +40,7 @@ Potential solutions:
   </testsuite>
   <testsuite name="IamService" errors="0" failures="1" skipped="0" timestamp="2024-10-03T23:08:35" time="10.983" tests="1">
     <testcase classname="IamService should be defined" name="IamService should be defined" time="0.021">
-      <failure>Error: Nest can&apos;t resolve dependencies of the AuthenticationService (?, PasswordService, JwtTokenProvider). Please make sure that the argument UsersService at index [0] is available in the RootTestModule context.
+      <failure>Error: Nest can&apos;t resolve dependencies of the IamService (?, PasswordService, JwtTokenProvider). Please make sure that the argument UsersService at index [0] is available in the RootTestModule context.
 
 Potential solutions:
 - Is RootTestModule a valid NestJS module?

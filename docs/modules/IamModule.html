@@ -143,15 +143,15 @@
 <path fill="none" stroke="black" d="M802,-122.28C802,-143.32 802,-175 802,-175 802,-175 499.84,-175 499.84,-175"/>
 <polygon fill="black" stroke="black" points="499.84,-171.5 489.84,-175 499.84,-178.5 499.84,-171.5"/>
 </g>
-<!-- AuthenticationService -->
+<!-- IamService -->
 <g id="node3" class="node">
-<title>AuthenticationService</title>
+<title>IamService</title>
 <ellipse fill="#fdb462" stroke="black" cx="635" cy="-104" rx="97.27" ry="18"/>
-<text text-anchor="middle" x="635" y="-99.8" font-family="Times,serif" font-size="14.00">AuthenticationService</text>
+<text text-anchor="middle" x="635" y="-99.8" font-family="Times,serif" font-size="14.00">IamService</text>
 </g>
-<!-- AuthenticationService&#45;&gt;IamModule -->
+<!-- IamService&#45;&gt;IamModule -->
 <g id="edge2" class="edge">
-<title>AuthenticationService&#45;&gt;IamModule</title>
+<title>IamService&#45;&gt;IamModule</title>
 <path fill="none" stroke="black" d="M635,-122.02C635,-139.37 635,-163 635,-163 635,-163 499.82,-163 499.82,-163"/>
 <polygon fill="black" stroke="black" points="499.82,-159.5 489.82,-163 499.82,-166.5 499.82,-159.5"/>
 </g>
@@ -241,7 +241,7 @@
                             title="Official documentation about module providers"><span class="icon ion-ios-information-circle-outline"></a></h3>
                     <ul class="list-group">
                         <li class="list-group-item">
-                            <a href="../injectables/AuthenticationService.html">AuthenticationService</a>
+                            <a href="../injectables/AuthenticationService.html">IamService</a>
                         </li>
                         <li class="list-group-item">
                             <a href="../injectables/BcryptProvider.html">BcryptProvider</a>
@@ -283,7 +283,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Module } from &quot;@nestjs/common&quot;;
-import { AuthenticationService } from &quot;./authentication.service&quot;;
+import { IamService } from &quot;./authentication.service&quot;;
 import { BcryptProvider } from &quot;./password/bcrypt.provider&quot;;
 import { TypeOrmModule } from &quot;@nestjs/typeorm&quot;;
 import { User } from &quot;../users/entity/user.entity&quot;;
@@ -308,7 +308,7 @@ import { UsersModule } from &quot;../users/users.module&quot;;
   providers: [
     JwtTokenProvider,
     PasswordService,
-    AuthenticationService,
+    IamService,
     BcryptProvider,
     {
       provide: APP_GUARD,

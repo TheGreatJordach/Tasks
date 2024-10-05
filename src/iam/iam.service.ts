@@ -19,7 +19,7 @@ import { UsersService } from "../users/users.service";
  * creating new users, and generating JWT access tokens.
  */
 @Injectable()
-export class AuthenticationService {
+export class IamService {
   private readonly logger = new Logger("IAMService");
   constructor(
     private readonly userService: UsersService,

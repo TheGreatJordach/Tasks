@@ -23,7 +23,9 @@ import { UpdateTaskDto } from "./dto/update-todo.dto";
 import { IdDto } from "../common/dto/id-dto";
 import { PaginationDto } from "../common/pagination/pagination.dto";
 import { PaginationResultDto } from "../common/pagination/generic-pagination-result.dto";
+import { Throttle } from "@nestjs/throttler";
 
+@Throttle({ default: { limit: 3, ttl: 60000 } })
 @Auth(AuthType.Bearer)
 @Controller("todos")
 export class TaskController {
@@ -115,7 +117,7 @@ export class TaskController {
       userPayload.sub
     );
     if (!user) {
-      throw new NotFoundException(`Not found Task for ${user.name}`);
+      throw new NotFoundException(`Not found Task for Connected User`);
     }
 
     return await this.taskService.paginateTasksForUser(paginationDto, user);

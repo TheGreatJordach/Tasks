@@ -1,10 +1,10 @@
 import { Module, ValidationPipe } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
+import { ConfigModule, ConfigService } from "@nestjs/config";
 import { APP_GUARD, APP_PIPE } from "@nestjs/core";
 import { DatabaseModule } from "./database/db.module";
 import { validateEnv } from "./environements/validate.env";
-import { AccessTokenGuard } from "../iam/authentication/guards/access-token.guard";
-import { IamModule } from "../iam/iam.module";
+
+import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
 
 @Module({
   imports: [
@@ -14,6 +14,16 @@ import { IamModule } from "../iam/iam.module";
       validate: validateEnv,
     }),
     DatabaseModule,
+    ThrottlerModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => [
+        {
+          ttl: configService.get<number>("THROTTLER_TTL"),
+          limit: configService.get<number>("THROTTLER_LIMIT"),
+        },
+      ],
+    }),
   ],
   providers: [
     {
@@ -27,6 +37,7 @@ import { IamModule } from "../iam/iam.module";
         },
       }),
     },
+    { provide: APP_GUARD, useClass: ThrottlerGuard },
   ],
 })
 export class AppConfigModule {}

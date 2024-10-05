@@ -47,6 +47,12 @@ export class ValidateEnv {
   @IsNumber()
   @IsPositive()
   JWT_TOKEN_TTL: number;
+  @IsNumber()
+  @IsPositive()
+  THROTTLER_TTL: number;
+  @IsNumber()
+  @IsPositive()
+  THROTTLER_LIMIT: number;
 }
 
 export function validateEnv(options: Record<string, unknown>) {

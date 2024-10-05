@@ -1,5 +1,5 @@
 import { Module } from "@nestjs/common";
-import { AuthenticationService } from "./authentication.service";
+import { IamService } from "./iam.service";
 import { BcryptProvider } from "./password/bcrypt.provider";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { User } from "../users/entity/user.entity";
@@ -24,7 +24,7 @@ import { UsersModule } from "../users/users.module";
   providers: [
     JwtTokenProvider,
     PasswordService,
-    AuthenticationService,
+    IamService,
     BcryptProvider,
     {
       provide: APP_GUARD,

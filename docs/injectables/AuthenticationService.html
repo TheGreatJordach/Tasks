@@ -91,7 +91,7 @@
 
 <ol class="breadcrumb">
   <li class="breadcrumb-item">Injectables</li>
-  <li class="breadcrumb-item" >AuthenticationService</li>
+  <li class="breadcrumb-item" >IamService</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -115,7 +115,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/iam/authentication.service.ts</code>
+            <code>src/iam/iam.service.ts</code>
         </p>
 
 
@@ -191,7 +191,7 @@ creating new users, and generating JWT access tokens.</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/iam/authentication.service.ts:23</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/iam/iam.service.ts:23</a></div>
                             </td>
                         </tr>
 
@@ -281,7 +281,7 @@ creating new users, and generating JWT access tokens.</p>
                     <tr>
                         <td class="col-md-4">
                             <div class="io-line">Defined in <a href="" data-line="77"
-                                    class="link-to-prism">src/iam/authentication.service.ts:77</a></div>
+                                    class="link-to-prism">src/iam/iam.service.ts:77</a></div>
                         </td>
                     </tr>
 
@@ -362,7 +362,7 @@ with the stored encrypted password. If the credentials are valid, it returns a s
                     <tr>
                         <td class="col-md-4">
                             <div class="io-line">Defined in <a href="" data-line="40"
-                                    class="link-to-prism">src/iam/authentication.service.ts:40</a></div>
+                                    class="link-to-prism">src/iam/iam.service.ts:40</a></div>
                         </td>
                     </tr>
 
@@ -447,7 +447,7 @@ InternalServerErrorException if hashing fails or saving the user fails.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/iam/authentication.service.ts:23</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/iam/iam.service.ts:23</a></div>
                         </td>
                     </tr>
 
@@ -481,7 +481,7 @@ import { UsersService } from &quot;../users/users.service&quot;;
  * creating new users, and generating JWT access tokens.
  */
 @Injectable()
-export class AuthenticationService {
+export class IamService {
   private readonly logger &#x3D; new Logger(&quot;IAMService&quot;);
   constructor(
     private readonly userService: UsersService,

@@ -55,7 +55,7 @@ export class TaskService {
       });
     } catch (error) {
       this.logger.error("Failed to getAllTasks", error);
-      this.logger.error(`Error code : ${error.code()}`);
+      this.logger.error(`Error code : ${error.code}`);
       throw new InternalServerErrorException();
     }
   }

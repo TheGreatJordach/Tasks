@@ -320,7 +320,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Body, Controller, Logger, Post } from &quot;@nestjs/common&quot;;
-import { AuthenticationService } from &quot;../authentication.service&quot;;
+import { IamService } from &quot;../authentication.service&quot;;
 import { SignUpDto } from &quot;../../users/dto/sign-up.dto&quot;;
 import { LogInDto } from &quot;../../users/dto/log-in.dto&quot;;
 import { AuthType } from &quot;./enum/auth-type.enum&quot;;
@@ -330,7 +330,7 @@ import { Auth } from &quot;./decorators/auth.decorators&quot;;
 @Controller(&quot;&quot;)
 export class AuthenticationController {
   private readonly logger &#x3D; new Logger(&quot;AuthenticationController&quot;);
-  constructor(private readonly iamService: AuthenticationService) {}
+  constructor(private readonly iamService: IamService) {}
 
   @Post(&quot;register&quot;)
   async registration(@Body() signUpDto: SignUpDto) {
