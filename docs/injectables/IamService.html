@@ -79,7 +79,7 @@
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
-               <div class="content guard">
+               <div class="content injectable">
                    <div class="content-data">
 
 
@@ -89,11 +89,9 @@
 
 
 
-
-
 <ol class="breadcrumb">
-    <li class="breadcrumb-item">Guards</li>
-    <li class="breadcrumb-item" >AccessTokenGuard</li>
+  <li class="breadcrumb-item">Injectables</li>
+  <li class="breadcrumb-item" >IamService</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -112,29 +110,28 @@
 </ul>
 
 <div class="tab-content">
-        <div class="tab-pane fade active in" id="info">
-            <p class="comment">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
             <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/iam/iam.service.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Description</h3>
             </p>
             <p class="comment">
-                <code>src/iam/authentication/guards/access-token.guard.ts</code>
+                <p>Service handling user authentication and registration operations.</p>
+<p>Provides methods for user registration, login, checking email availability,
+creating new users, and generating JWT access tokens.</p>
+
             </p>
 
 
-                <p class="comment">
-                <h3>Description</h3>
-                </p>
-                <p class="comment">
-                    <p>Guard that checks the validity of an access token.
-If the token is valid, it adds the user information to the request object.
-If the token is invalid, it throws an UnauthorizedException.</p>
 
-                </p>
-
-
-
-
-                <section data-compodoc="block-index">
+            <section data-compodoc="block-index">
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
@@ -165,11 +162,11 @@ If the token is invalid, it throws an UnauthorizedException.</p>
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Async</span>
-                                <a href="#canActivate" >canActivate</a>
+                                <a href="#login" >login</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#extractTokenFromHeader" >extractTokenFromHeader</a>
+                                    <span class="modifier">Async</span>
+                                <a href="#registration" >registration</a>
                             </li>
                         </ul>
                     </td>
@@ -183,18 +180,18 @@ If the token is invalid, it throws an UnauthorizedException.</p>
     </table>
 </section>
 
-                <section data-compodoc="block-constructor">
+            <section data-compodoc="block-constructor">
     <h3 id="constructor">Constructor</h3>
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(jwtService: JwtService, jwtConfiguration: ConfigType<>)</code>
+<code>constructor(userService: <a href="../injectables/UsersService.html" target="_self">UsersService</a>, passwordService: <a href="../injectables/PasswordService.html" target="_self">PasswordService</a>, jwtTokenProvider: <a href="../injectables/JwtTokenProvider.html" target="_self">JwtTokenProvider</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/iam/authentication/guards/access-token.guard.ts:22</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/iam/iam.service.ts:23</a></div>
                             </td>
                         </tr>
 
@@ -212,10 +209,10 @@ If the token is invalid, it throws an UnauthorizedException.</p>
                                         </thead>
                                         <tbody>
                                                 <tr>
-                                                        <td>jwtService</td>
+                                                        <td>userService</td>
                                                   
                                                         <td>
-                                                                    <code>JwtService</code>
+                                                                        <code><a href="../injectables/UsersService.html" target="_self" >UsersService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -224,10 +221,22 @@ If the token is invalid, it throws an UnauthorizedException.</p>
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>jwtConfiguration</td>
+                                                        <td>passwordService</td>
                                                   
                                                         <td>
-                                                                    <code>ConfigType&lt;&gt;</code>
+                                                                        <code><a href="../injectables/PasswordService.html" target="_self" >PasswordService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>jwtTokenProvider</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/JwtTokenProvider.html" target="_self" >JwtTokenProvider</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -244,7 +253,7 @@ If the token is invalid, it throws an UnauthorizedException.</p>
         </table>
 </section>
 
-                <section data-compodoc="block-methods">
+            <section data-compodoc="block-methods">
     
     <h3 id="methods">
         Methods
@@ -253,102 +262,35 @@ If the token is invalid, it throws an UnauthorizedException.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="canActivate"></a>
+                    <a name="login"></a>
                     <span class="name">
                             <span class="modifier">Async</span>
-                        <span ><b>canActivate</b></span>
-                        <a href="#canActivate"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>login</b></span>
+                        <a href="#login"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>canActivate(context: ExecutionContext)</code>
+                    <code>login(logInDto: <a href="../classes/LogInDto.html" target="_self">LogInDto</a>)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="30"
-                                    class="link-to-prism">src/iam/authentication/guards/access-token.guard.ts:30</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="77"
+                                    class="link-to-prism">src/iam/iam.service.ts:77</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>context</td>
-                                            <td>
-                                                        <code>ExecutionContext</code>
-                                            </td>
-
-                                            <td>
-                                                    No
-                                            </td>
-
-
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>    <code>Promise&lt;boolean&gt;</code>
-
-                        </div>
-                            <div class="io-description">
-                                
-                            </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="extractTokenFromHeader"></a>
-                    <span class="name">
-                            <span class="modifier">Private</span>
-                        <span ><b>extractTokenFromHeader</b></span>
-                        <a href="#extractTokenFromHeader"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>extractTokenFromHeader(request: Request)</code>
-                </td>
-            </tr>
-
-
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="53"
-                                    class="link-to-prism">src/iam/authentication/guards/access-token.guard.ts:53</a></div>
-                        </td>
-                    </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-description"><p>Extracts the token from the authorization header of the request.</p>
+                        <div class="io-description"><p>Asynchronously logs in a user by verifying the provided login credentials.</p>
+<p>This method checks if the email exists in the database, then compares the provided password
+with the stored encrypted password. If the credentials are valid, it returns a success message.</p>
 </div>
 
                             <div class="io-description">
@@ -365,9 +307,9 @@ If the token is invalid, it throws an UnauthorizedException.</p>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                                <td>request</td>
+                                                <td>logInDto</td>
                                             <td>
-                                                        <code>Request</code>
+                                                            <code><a href="../classes/LogInDto.html" target="_self" >LogInDto</a></code>
                                             </td>
 
                                             <td>
@@ -377,7 +319,7 @@ If the token is invalid, it throws an UnauthorizedException.</p>
 
                                             <td>
                                                     <ul>
-<li>The request object containing headers.</li>
+<li>The data transfer object containing the user&#39;s login information.</li>
 </ul>
 
                                             </td>
@@ -386,11 +328,93 @@ If the token is invalid, it throws an UnauthorizedException.</p>
                                 </table>
                             </div>
                         <div class="io-description">
-                            <b>Returns : </b>    <code>string | undefined</code>
+                            <b>Returns : </b>    <code>Promise&lt;literal type&gt;</code>
 
                         </div>
                             <div class="io-description">
-                                <p>The extracted token string or undefined if not found.</p>
+                                <p>A promise that resolves to an object with a success message upon successful login.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="registration"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>registration</b></span>
+                        <a href="#registration"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>registration(signUpDto: <a href="../classes/SignUpDto.html" target="_self">SignUpDto</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="40"
+                                    class="link-to-prism">src/iam/iam.service.ts:40</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Registers a new user by creating a user entity with the provided sign-up information.</p>
+<p>Checks if the email is already in use, hashes the password, saves the user to the repository,
+and generates a token for the new user. Throws ConflictException if email is in use,
+InternalServerErrorException if hashing fails or saving the user fails.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>signUpDto</td>
+                                            <td>
+                                                            <code><a href="../classes/SignUpDto.html" target="_self" >SignUpDto</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>The data transfer object containing the user&#39;s sign-up information.</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;literal type&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>A promise that resolves to an object with a token for the newly registered user.</p>
 
                             </div>
                 </td>
@@ -398,71 +422,144 @@ If the token is invalid, it throws an UnauthorizedException.</p>
         </tbody>
     </table>
 </section>
-        </div>
+            <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="logger"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>logger</b></span>
+                        <a href="#logger"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Logger(&quot;IAMService&quot;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/iam/iam.service.ts:23</a></div>
+                        </td>
+                    </tr>
 
 
-        <div class="tab-pane fade  tab-source-code" id="source">
-            <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
-  CanActivate,
-  ExecutionContext,
-  Inject,
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  ConflictException,
   Injectable,
+  InternalServerErrorException,
   Logger,
   UnauthorizedException,
 } from &quot;@nestjs/common&quot;;
-import { JwtService } from &quot;@nestjs/jwt&quot;;
-import jwtConfig from &quot;../../../app-config/jwt/jwt.config&quot;;
-import { ConfigType } from &quot;@nestjs/config&quot;;
-import { Request } from &quot;Express&quot;;
-import { REQUEST_USER_KEY } from &quot;../constants/user.key&quot;;
+
+import { SignUpDto } from &quot;../users/dto/sign-up.dto&quot;;
+import { LogInDto } from &quot;../users/dto/log-in.dto&quot;;
+import { PasswordService } from &quot;./password/password.service&quot;;
+import { JwtTokenProvider } from &quot;./jwt-token.provider&quot;;
+import { UsersService } from &quot;../users/users.service&quot;;
 
 /**
- * Guard that checks the validity of an access token.
- * If the token is valid, it adds the user information to the request object.
- * If the token is invalid, it throws an UnauthorizedException.
+ * Service handling user authentication and registration operations.
+ *
+ * Provides methods for user registration, login, checking email availability,
+ * creating new users, and generating JWT access tokens.
  */
 @Injectable()
-export class AccessTokenGuard implements CanActivate {
-  private readonly logger: Logger &#x3D; new Logger(&quot;AccessTokenGuard&quot;);
-
+export class IamService {
+  private readonly logger &#x3D; new Logger(&quot;IAMService&quot;);
   constructor(
-    private readonly jwtService: JwtService,
-    @Inject(jwtConfig.KEY)
-    private readonly jwtConfiguration: ConfigType&lt;typeof jwtConfig&gt;
+    private readonly userService: UsersService,
+    private readonly passwordService: PasswordService,
+    private readonly jwtTokenProvider: JwtTokenProvider
   ) {}
 
-  async canActivate(context: ExecutionContext): Promise&lt;boolean&gt; {
-    const request &#x3D; context.switchToHttp().getRequest();
-    const token &#x3D; this.extractTokenFromHeader(request);
-    if (!token) {
-      this.logger.warn(&quot; Bad Token found in the Header&quot;);
-      throw new UnauthorizedException();
+  /**
+   * Registers a new user by creating a user entity with the provided sign-up information.
+   *
+   * Checks if the email is already in use, hashes the password, saves the user to the repository,
+   * and generates a token for the new user. Throws ConflictException if email is in use,
+   * InternalServerErrorException if hashing fails or saving the user fails.
+   *
+   * @param signUpDto - The data transfer object containing the user&#x27;s sign-up information.
+   * @returns A promise that resolves to an object with a token for the newly registered user.
+   */
+  async registration(signUpDto: SignUpDto): Promise&lt;{ token: string }&gt; {
+    const storedUser &#x3D; await this.userService.ifEmailUsed(signUpDto.email);
+    if (storedUser) {
+      throw new ConflictException();
     }
-    try {
-      request[REQUEST_USER_KEY] &#x3D; await this.jwtService.verifyAsync(
-        token,
-        this.jwtConfiguration
-      );
-    } catch {
-      throw new UnauthorizedException();
+
+    const hashedPassword &#x3D; await this.passwordService.hasPassword(
+      signUpDto.password
+    );
+    if (!hashedPassword) {
+      this.logger.log(&quot;IAM Failed with hash Provider&quot;);
+      throw new InternalServerErrorException();
     }
-    return true;
+
+    const savedUser &#x3D; await this.userService.createUser(
+      signUpDto,
+      hashedPassword
+    );
+
+    if (!savedUser) {
+      this.logger.log(&quot;IAM Failed to save new User&quot;);
+      throw new InternalServerErrorException(&quot;Database error&quot;);
+    }
+
+    return await this.jwtTokenProvider.generateToken(savedUser);
   }
 
   /**
-   * Extracts the token from the authorization header of the request.
-   * @param request - The request object containing headers.
-   * @returns The extracted token string or undefined if not found.
+   * Asynchronously logs in a user by verifying the provided login credentials.
+   *
+   * This method checks if the email exists in the database, then compares the provided password
+   * with the stored encrypted password. If the credentials are valid, it returns a success message.
+   *
+   * @param logInDto - The data transfer object containing the user&#x27;s login information.
+   * @returns A promise that resolves to an object with a success message upon successful login.
+   * @throws UnauthorizedException if the login credentials are invalid.
    */
-  private extractTokenFromHeader(request: Request): string | undefined {
-    const [_, token] &#x3D; request.headers.authorization?.split(&quot; &quot;) ?? [];
+  async login(logInDto: LogInDto): Promise&lt;{ token: string }&gt; {
+    const storedUser &#x3D; await this.userService.ifEmailUsed(logInDto.email);
+    if (!storedUser) {
+      this.logger.log(&quot;IAM-SignUp Failed to signIn&quot;);
+      throw new UnauthorizedException();
+    }
+    const isSamePassword: boolean &#x3D; await this.passwordService.comparePassword(
+      logInDto.password,
+      storedUser.password
+    );
+    if (!isSamePassword) {
+      this.logger.log(&quot;IAM-SignUp Failed to signIn&quot;);
+      throw new UnauthorizedException();
+    }
 
-    return token;
+    return await this.jwtTokenProvider.generateToken(storedUser);
   }
 }
 </code></pre>
-        </div>
+    </div>
+
 </div>
+
+
 
 
 
@@ -499,8 +596,8 @@ export class AccessTokenGuard implements CanActivate {
 
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
-            var COMPODOC_CURRENT_PAGE_CONTEXT = 'guard';
-            var COMPODOC_CURRENT_PAGE_URL = 'AccessTokenGuard.html';
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'IamService.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 

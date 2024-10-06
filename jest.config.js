@@ -7,7 +7,7 @@ module.exports = {
     "^.+\\.(t|j)s$": "ts-jest",
   },
   collectCoverageFrom: ["**/*.(t|j)s"],
-  coverageDirectory: "../coverage",
+  coverageDirectory: "./coverage",
   testEnvironment: "node",
   coverageReporters: ["text", "lcov"],
   reporters: [
@@ -20,5 +20,12 @@ module.exports = {
       },
     ],
   ],
-  coveragePathIgnorePatterns: ["/node_modules/", "/docs/"],
+  coveragePathIgnorePatterns: [
+    "/node_modules/",
+    "/docs/",
+    "/dist/",
+    "/coverage/",
+    ".*\\.config\\.js$", // Ignore configuration files with .js extension
+    ".*\\.config\\.ts$",
+  ],
 };

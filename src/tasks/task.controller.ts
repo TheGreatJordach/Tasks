@@ -10,6 +10,8 @@ import {
   Post,
   Put,
   Query,
+  UnauthorizedException,
+  UseInterceptors,
 } from "@nestjs/common";
 import { Auth } from "../iam/authentication/decorators/auth.decorators";
 import { AuthType } from "../iam/authentication/enum/auth-type.enum";
@@ -24,12 +26,52 @@ import { IdDto } from "../common/dto/id-dto";
 import { PaginationDto } from "../common/pagination/pagination.dto";
 import { PaginationResultDto } from "../common/pagination/generic-pagination-result.dto";
 import { Throttle } from "@nestjs/throttler";
+import { TodoQueryDto } from "./dto/tast-query.dto";
+import { CustomResponseInterceptor } from "../common/interceptors/custom-response.interceptor";
 
+//@UseInterceptors(CustomResponseInterceptor)
 @Throttle({ default: { limit: 3, ttl: 60000 } })
 @Auth(AuthType.Bearer)
 @Controller("todos")
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}
+
+  @Get("search")
+  async searchTodos(
+    @AuthenticateUser() userPayload: AuthUserData,
+    @Query() query: TodoQueryDto
+  ) {
+    const user: User | null = await this.taskService.getUserEntity(
+      userPayload.sub
+    );
+    if (!user) {
+      throw new UnauthorizedException();
+    }
+    return await this.taskService.searchTodos(query);
+  }
+
+  /**
+   * Retrieves and paginates all todos for a specific user.
+   *
+   * @param {AuthUserData} userPayload - The authenticated user's data.
+   * @param {PaginationDto} paginationDto - The pagination details for the todos.
+   * @returns {Promise<PaginationResultDto<Task>>} A promise that resolves to a paginated result of todos.
+   * @throws {NotFoundException} If the user or tasks are not found.
+   */
+  @Get()
+  async getAllTodos(
+    @AuthenticateUser() userPayload: AuthUserData,
+    @Query() paginationDto: PaginationDto
+  ): Promise<PaginationResultDto<Task>> {
+    const user: User | null = await this.taskService.getUserEntity(
+      userPayload.sub
+    );
+    if (!user) {
+      throw new NotFoundException(`Not found Task for Connected User`);
+    }
+
+    return await this.taskService.paginateTasksForUser(paginationDto, user);
+  }
 
   /**
    * Retrieves user information and creates a new task associated with the user.
@@ -39,8 +81,9 @@ export class TaskController {
    * @returns {Promise<Task>} A promise that resolves to the created task.
    * @throws {NotFoundException} If the user does not exist.
    */
+  @UseInterceptors(CustomResponseInterceptor)
   @Post()
-  async getTodos(
+  async createTodo(
     @AuthenticateUser() userPayload: AuthUserData,
     @Body() todo: CreateTodoDto
   ): Promise<Task> {
@@ -62,6 +105,7 @@ export class TaskController {
    * @returns {Promise<Task>} A promise that resolves to the updated task.
    * @throws {NotFoundException} If the user does not exist.
    */
+  @UseInterceptors(CustomResponseInterceptor)
   @Put(":id")
   async updateTodo(
     @AuthenticateUser() userPayload: AuthUserData,
@@ -98,28 +142,5 @@ export class TaskController {
       throw new NotFoundException("User does not exist");
     }
     await this.taskService.deleteTask(id, user);
-  }
-
-  /**
-   * Retrieves and paginates all todos for a specific user.
-   *
-   * @param {AuthUserData} userPayload - The authenticated user's data.
-   * @param {PaginationDto} paginationDto - The pagination details for the todos.
-   * @returns {Promise<PaginationResultDto<Task>>} A promise that resolves to a paginated result of todos.
-   * @throws {NotFoundException} If the user or tasks are not found.
-   */
-  @Get()
-  async getAllTodos(
-    @AuthenticateUser() userPayload: AuthUserData,
-    @Query() paginationDto: PaginationDto
-  ): Promise<PaginationResultDto<Task>> {
-    const user: User | null = await this.taskService.getUserEntity(
-      userPayload.sub
-    );
-    if (!user) {
-      throw new NotFoundException(`Not found Task for Connected User`);
-    }
-
-    return await this.taskService.paginateTasksForUser(paginationDto, user);
   }
 }

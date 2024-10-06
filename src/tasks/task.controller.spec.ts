@@ -54,7 +54,7 @@ describe("TaskController", () => {
       (taskService.getUserEntity as jest.Mock).mockResolvedValue(mockUser);
       (taskService.createTask as jest.Mock).mockResolvedValue(mockTask);
 
-      const result = await taskController.getTodos(
+      const result = await taskController.createTodo(
         { sub: 1 } as AuthUserData,
         { title: "New Task", description: "Test Desc" } as CreateTodoDto
       );
@@ -71,7 +71,7 @@ describe("TaskController", () => {
       (taskService.getUserEntity as jest.Mock).mockResolvedValue(null);
 
       await expect(
-        taskController.getTodos(
+        taskController.createTodo(
           { sub: 1 } as AuthUserData,
           { title: "New Task", description: "Test Desc" } as CreateTodoDto
         )

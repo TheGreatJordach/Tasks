@@ -3,12 +3,14 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
 
 @Entity("todos")
+@Index(["title", "createAt"])
 export class Task {
   @PrimaryGeneratedColumn()
   id: number;

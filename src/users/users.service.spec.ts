@@ -97,6 +97,44 @@ describe("UsersService", () => {
       expect(result).toEqual(mockUser);
     });
 
+    it("should not mutate the input DTO", async () => {
+      const signUpDto: SignUpDto = {
+        email: "test@example.com",
+        password: "password123",
+        name: "Test User",
+        tasks: [],
+      };
+      const encryptedPassword = "encryptedPassword123";
+      const signUpDtoCopy = { ...signUpDto };
+
+      mockUserRepository.create.mockReturnValue(signUpDto);
+      mockUserRepository.save.mockResolvedValue(signUpDto);
+
+      await usersService.createUser(signUpDto, encryptedPassword);
+
+      // Ensure DTO has not been mutated
+      expect(signUpDto).toEqual(signUpDtoCopy);
+    });
+
+    it("should handle duplicate email error (if applicable)", async () => {
+      const signUpDto: SignUpDto = {
+        email: "duplicate@example.com",
+        password: "password123",
+        name: "Test User",
+        tasks: [],
+      };
+      const encryptedPassword = "encryptedPassword123";
+
+      mockUserRepository.save.mockRejectedValue({
+        code: "23505", // Unique constraint error code for PostgresSQL
+        detail: "Duplicate email",
+      });
+
+      await expect(
+        usersService.createUser(signUpDto, encryptedPassword)
+      ).rejects.toThrow(InternalServerErrorException);
+    });
+
     it("should throw an InternalServerErrorException if save fails", async () => {
       const signUpDto: SignUpDto = {
         email: "test@example.com",

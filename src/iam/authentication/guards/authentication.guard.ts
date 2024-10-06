@@ -53,6 +53,7 @@ export class AuthenticationGuard implements CanActivate {
       "Somme errors occurred while trying to use Auth guards",
       errors.cause
     );
+    this.logger.warn("Bad Token found in the Header");
     throw errors;
   }
 }

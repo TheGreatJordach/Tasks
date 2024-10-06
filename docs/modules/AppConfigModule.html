@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Tasks documentation</title>
+        <title>tasks documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -64,7 +64,7 @@
 
         <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
                <div class="d-flex">
-                    <a href="../" class="navbar-brand">Tasks documentation</a>
+                    <a href="../" class="navbar-brand">tasks documentation</a>
                     <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
                </div>
         </div>
@@ -203,12 +203,12 @@
 
     <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Module, ValidationPipe } from &quot;@nestjs/common&quot;;
-import { ConfigModule } from &quot;@nestjs/config&quot;;
+import { ConfigModule, ConfigService } from &quot;@nestjs/config&quot;;
 import { APP_GUARD, APP_PIPE } from &quot;@nestjs/core&quot;;
 import { DatabaseModule } from &quot;./database/db.module&quot;;
 import { validateEnv } from &quot;./environements/validate.env&quot;;
-import { AccessTokenGuard } from &quot;../iam/authentication/guards/access-token.guard&quot;;
-import { IamModule } from &quot;../iam/iam.module&quot;;
+
+import { ThrottlerGuard, ThrottlerModule } from &quot;@nestjs/throttler&quot;;
 
 @Module({
   imports: [
@@ -218,6 +218,16 @@ import { IamModule } from &quot;../iam/iam.module&quot;;
       validate: validateEnv,
     }),
     DatabaseModule,
+    ThrottlerModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) &#x3D;&gt; [
+        {
+          ttl: configService.get&lt;number&gt;(&quot;THROTTLER_TTL&quot;),
+          limit: configService.get&lt;number&gt;(&quot;THROTTLER_LIMIT&quot;),
+        },
+      ],
+    }),
   ],
   providers: [
     {
@@ -231,6 +241,7 @@ import { IamModule } from &quot;../iam/iam.module&quot;;
         },
       }),
     },
+    { provide: APP_GUARD, useClass: ThrottlerGuard },
   ],
 })
 export class AppConfigModule {}

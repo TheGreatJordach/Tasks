@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Tasks documentation</title>
+        <title>tasks documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -64,7 +64,7 @@
 
         <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
                <div class="d-flex">
-                    <a href="../" class="navbar-brand">Tasks documentation</a>
+                    <a href="../" class="navbar-brand">tasks documentation</a>
                     <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
                </div>
         </div>
@@ -209,8 +209,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="88"
-                                    class="link-to-prism">src/tasks/task.controller.ts:88</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="90"
+                                    class="link-to-prism">src/tasks/task.controller.ts:90</a></div>
                         </td>
                     </tr>
 
@@ -309,8 +309,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="110"
-                                    class="link-to-prism">src/tasks/task.controller.ts:110</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="112"
+                                    class="link-to-prism">src/tasks/task.controller.ts:112</a></div>
                         </td>
                     </tr>
 
@@ -414,8 +414,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="41"
-                                    class="link-to-prism">src/tasks/task.controller.ts:41</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="43"
+                                    class="link-to-prism">src/tasks/task.controller.ts:43</a></div>
                         </td>
                     </tr>
 
@@ -519,8 +519,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="64"
-                                    class="link-to-prism">src/tasks/task.controller.ts:64</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="66"
+                                    class="link-to-prism">src/tasks/task.controller.ts:66</a></div>
                         </td>
                     </tr>
 
@@ -636,7 +636,9 @@ import { UpdateTaskDto } from &quot;./dto/update-todo.dto&quot;;
 import { IdDto } from &quot;../common/dto/id-dto&quot;;
 import { PaginationDto } from &quot;../common/pagination/pagination.dto&quot;;
 import { PaginationResultDto } from &quot;../common/pagination/generic-pagination-result.dto&quot;;
+import { Throttle } from &quot;@nestjs/throttler&quot;;
 
+@Throttle({ default: { limit: 3, ttl: 60000 } })
 @Auth(AuthType.Bearer)
 @Controller(&quot;todos&quot;)
 export class TaskController {
@@ -728,7 +730,7 @@ export class TaskController {
       userPayload.sub
     );
     if (!user) {
-      throw new NotFoundException(&#x60;Not found Task for ${user.name}&#x60;);
+      throw new NotFoundException(&#x60;Not found Task for Connected User&#x60;);
     }
 
     return await this.taskService.paginateTasksForUser(paginationDto, user);
