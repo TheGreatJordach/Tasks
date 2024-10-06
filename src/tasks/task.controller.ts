@@ -47,7 +47,8 @@ export class TaskController {
     if (!user) {
       throw new UnauthorizedException();
     }
-    return await this.taskService.searchTodos(query);
+    const { limit, search } = query;
+    return await this.taskService.searchTodos(search, limit);
   }
 
   /**
