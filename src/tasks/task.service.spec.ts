@@ -13,12 +13,14 @@ import { CreateTodoDto } from "./dto/create-todo.dto";
 import { UpdateTaskDto } from "./dto/update-todo.dto";
 import { PaginationDto } from "../common/pagination/pagination.dto";
 import { PaginationResultDto } from "../common/pagination/generic-pagination-result.dto";
+import { SearchService } from "../search/search.service";
 
 describe("TaskService", () => {
   let taskService: TaskService;
   let taskRepository: Repository<Task>;
   let userRepository: Repository<User>;
-  let logger: Logger;
+
+  let meilisearchService: SearchService; // Declare the MeiliSearchService
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -48,13 +50,20 @@ describe("TaskService", () => {
             log: jest.fn(),
           },
         },
+        {
+          provide: SearchService, // Mock MeiliSearchService
+          useValue: {
+            addTodo: jest.fn(),
+          },
+        },
       ],
     }).compile();
 
     taskService = module.get<TaskService>(TaskService);
     taskRepository = module.get<Repository<Task>>(getRepositoryToken(Task));
     userRepository = module.get<Repository<User>>(getRepositoryToken(User));
-    logger = module.get<Logger>(Logger);
+
+    meilisearchService = module.get<SearchService>(SearchService); // Get instance of MeiliSearchService
   });
 
   afterEach(() => {
@@ -115,7 +124,7 @@ describe("TaskService", () => {
   });
 
   describe("createTask", () => {
-    it("should create and return a new task", async () => {
+    it("should create and return a new task and index it in MeiliSearch", async () => {
       const mockUser = new User();
       mockUser.id = 1;
 
@@ -132,6 +141,7 @@ describe("TaskService", () => {
 
       (taskRepository.create as jest.Mock).mockReturnValue(mockTask);
       (taskRepository.save as jest.Mock).mockResolvedValue(mockTask);
+      (meilisearchService.addTodo as jest.Mock).mockResolvedValue({}); // Mock addTodo
 
       const result = await taskService.createTask(createTodoDto, mockUser);
 
@@ -140,10 +150,11 @@ describe("TaskService", () => {
         user: mockUser,
       });
       expect(taskRepository.save).toHaveBeenCalledWith(mockTask);
+      expect(meilisearchService.addTodo).toHaveBeenCalledWith(createTodoDto); // Verify MeiliSearch indexing
       expect(result).toEqual(mockTask);
     });
 
-    it("should throw InternalServerErrorException if error occurs", async () => {
+    it("should throw InternalServerErrorException if error occurs in task creation", async () => {
       const mockUser = new User();
       mockUser.id = 1;
 
@@ -162,8 +173,34 @@ describe("TaskService", () => {
         taskService.createTask(createTodoDto, mockUser)
       ).rejects.toThrow(InternalServerErrorException);
     });
-  });
 
+    it("should throw InternalServerErrorException if error occurs in MeiliSearch", async () => {
+      const mockUser = new User();
+      mockUser.id = 1;
+
+      const createTodoDto: CreateTodoDto = {
+        title: "Test Task",
+        description: "Test Description",
+        user: mockUser,
+      };
+
+      const mockTask = new Task();
+      mockTask.id = 1;
+      mockTask.title = createTodoDto.title;
+      mockTask.description = createTodoDto.description;
+      mockTask.user = mockUser;
+
+      (taskRepository.create as jest.Mock).mockReturnValue(mockTask);
+      (taskRepository.save as jest.Mock).mockResolvedValue(mockTask);
+      (meilisearchService.addTodo as jest.Mock).mockRejectedValue(
+        new Error("MeiliSearch error")
+      ); // Mock error in MeiliSearch
+
+      await expect(
+        taskService.createTask(createTodoDto, mockUser)
+      ).rejects.toThrow(InternalServerErrorException);
+    });
+  });
   describe("getUserEntity", () => {
     it("should return user if found", async () => {
       const mockUser = new User();

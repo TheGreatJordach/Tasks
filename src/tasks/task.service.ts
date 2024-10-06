@@ -12,46 +12,20 @@ import { CreateTodoDto } from "./dto/create-todo.dto";
 import { UpdateTaskDto } from "./dto/update-todo.dto";
 import { PaginationResultDto } from "../common/pagination/generic-pagination-result.dto";
 import { PaginationDto } from "../common/pagination/pagination.dto";
-import { TodoQueryDto } from "./dto/tast-query.dto";
+
+import { SearchService } from "../search/search.service";
 
 @Injectable()
 export class TaskService {
   private readonly logger = new Logger("TaskService");
   constructor(
     @InjectRepository(Task) private readonly taskRepository: Repository<Task>,
-    @InjectRepository(User) private readonly userRepository: Repository<User>
+    @InjectRepository(User) private readonly userRepository: Repository<User>,
+    private readonly meilisearchService: SearchService
   ) {}
 
-  async searchTodos(query: TodoQueryDto) {
-    const {
-      search,
-      limit = 10,
-      page = 1,
-      sortBy = "createAt",
-      sortDirection = "ASC",
-    } = query;
-
-    const qb = this.taskRepository.createQueryBuilder("todo");
-
-    // Normalize search term
-    const normalizedSearch = search ? `${search.trim().toLowerCase()}` : null;
-
-    if (normalizedSearch) {
-      console.log(`Searching for: ${normalizedSearch}`);
-      qb.andWhere(
-        "LOWER(todo.title) LIKE :search OR LOWER(todo.description) LIKE :search",
-        {
-          search: normalizedSearch,
-        }
-      );
-    }
-
-    qb.orderBy(`todo.${sortBy}`, sortDirection);
-    qb.skip((page - 1) * limit).take(limit);
-
-    const [todos, total] = await qb.getManyAndCount();
-
-    return { todos, total, page, limit };
+  async searchTodos(query: string, limit: number) {
+    return await this.meilisearchService.searchTodos(query, limit);
   }
 
   /**
@@ -108,7 +82,10 @@ export class TaskService {
   async createTask(todo: CreateTodoDto, user: User): Promise<Task> {
     try {
       const task = this.taskRepository.create({ ...todo, user });
-      return await this.taskRepository.save(task);
+      const savedTask = await this.taskRepository.save(task);
+      // Index the task Meilisearch for searchability
+      await this.meilisearchService.addTodo(todo);
+      return savedTask;
     } catch (error) {
       this.logger.error("Failed to create task", error);
       this.logger.error(`Code Error, ${error.code}`);

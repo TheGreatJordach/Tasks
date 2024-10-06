@@ -17,5 +17,21 @@ services:
       timeout: 5s
       retries: 3
 
+
+  # Meilisearch setup
+  meilisearch:
+    image: getmeili/meilisearch:v1.10 # Replace with the latest version
+    environment:
+      # Set the master key for production
+      MEILI_MASTER_KEY: ${MEILI_MASTER}
+      # Use production mode
+      MEILI_ENV: ${MEILI_ENV}
+    volumes:
+      - meili-data:/meili_data
+    ports:
+      - "7700:7700"
+
+
 volumes:
   db-data:
+  meili-data:
